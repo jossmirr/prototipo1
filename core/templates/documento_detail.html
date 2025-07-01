@@ -1,0 +1,21 @@
+<!-- core/templates/documento_detail.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Detalles del Documento: {{ documento.nombre_archivo }}</h2>
+    </div>
+    <div class="card-body">
+        <p><strong>Nombre:</strong> {{ documento.nombre_archivo }}</p>
+        <p><strong>Tipo:</strong> {{ documento.get_tipo_documento_display }}</p>
+        <p><strong>BPIN:</strong> {{ documento.bpin.numero_bpin|default:"N/A" }}</p>
+        <p><strong>Contrato:</strong> {{ documento.contrato.numero_contrato|default:"N/A" }}</p>
+        <p><strong>Fecha Subida:</strong> {{ documento.fecha_subida|date:"d/m/Y H:i" }}</p>
+        <p><strong>Subido Por:</strong> {{ documento.subido_por.username|default:"N/A" }}</p>
+        <p><strong>Archivo:</strong> <a href="{{ documento.archivo.url }}" class="btn btn-primary btn-sm" download>Descargar</a></p>
+        <p><strong>Creado:</strong> {{ documento.created_at|date:"d/m/Y H:i" }}</p>
+        <p><strong>Actualizado:</strong> {{ documento.updated_at|date:"d/m/Y H:i" }}</p>
+        <a href="{% url 'document_list' %}" class="btn btn-secondary mt-3">Volver</a>
+    </div>
+</div>
+{% endblock %}

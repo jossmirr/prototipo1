@@ -1,0 +1,43 @@
+<!-- core/templates/documento_edit.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2>Editar Documento: {{ documento.nombre_archivo }}</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="{{ form.nombre_archivo.id_for_label }}" class="form-label">Nombre del Archivo</label>
+                        {{ form.nombre_archivo }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.archivo.id_for_label }}" class="form-label">Archivo (dejar en blanco si no deseas reemplazar)</label>
+                        {{ form.archivo }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.tipo_documento.id_for_label }}" class="form-label">Tipo de Documento</label>
+                        {{ form.tipo_documento }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.bpin.id_for_label }}" class="form-label">BPIN (Opcional)</label>
+                        {{ form.bpin }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.contrato.id_for_label }}" class="form-label">Contrato (Opcional)</label>
+                        {{ form.contrato }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.descripcion.id_for_label }}" class="form-label">Descripción</label>
+                        {{ form.descripcion }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+<!-- core/templates/contrato_create.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2>Crear Contrato</h2>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="{{ form.numero_contrato.id_for_label }}" class="form-label">Número de Contrato</label>
+                        {{ form.numero_contrato }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.objeto_contrato.id_for_label }}" class="form-label">Objeto del Contrato</label>
+                        {{ form.objeto_contrato }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.fecha_suscripcion.id_for_label }}" class="form-label">Fecha de Suscripción</label>
+                        {{ form.fecha_suscripcion }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.valor_contrato.id_for_label }}" class="form-label">Valor del Contrato</label>
+                        {{ form.valor_contrato }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.bpin.id_for_label }}" class="form-label">BPIN</label>
+                        {{ form.bpin }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,77 @@
+<!-- core/templates/bpin_detail.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Detalles del BPIN: {{ bpin.numero_bpin }}</h2>
+    </div>
+    <div class="card-body">
+        <h4>Información General</h4>
+        <p><strong>Número BPIN:</strong> {{ bpin.numero_bpin }}</p>
+        <p><strong>Nombre del Proyecto:</strong> {{ bpin.nombre_proyecto }}</p>
+        <p><strong>Vigencia:</strong> {{ bpin.vigencia }}</p>
+        <p><strong>Presupuesto:</strong> {{ bpin.presupuesto }}</p>
+        <p><strong>Creado:</strong> {{ bpin.created_at|date:"d/m/Y H:i" }}</p>
+        <p><strong>Actualizado:</strong> {{ bpin.updated_at|date:"d/m/Y H:i" }}</p>
+        <h4>Contratos Asociados</h4>
+        {% if contratos %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Número Contrato</th>
+                        <th>Objeto</th>
+                        <th>Valor</th>
+                        <th>Fecha Suscripción</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contrato in contratos %}
+                        <tr>
+                            <td>{{ contrato.numero_contrato }}</td>
+                            <td>{{ contrato.objeto_contrato }}</td>
+                            <td>{{ contrato.valor_contrato }}</td>
+                            <td>{{ contrato.fecha_suscripcion|date:"d/m/Y" }}</td>
+                            <td>
+                                <a href="{% url 'contrato_detail' contrato.id %}" class="btn btn-info btn-sm">Ver Detalles</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No hay contratos asociados.</p>
+        {% endif %}
+        <h4>Documentos Asociados</h4>
+        {% if documentos %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Fecha Subida</th>
+                        <th>Subido Por</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for documento in documentos %}
+                        <tr>
+                            <td><a href="{{ documento.archivo.url }}">{{ documento.nombre_archivo }}</a></td>
+                            <td>{{ documento.get_tipo_documento_display }}</td>
+                            <td>{{ documento.fecha_subida|date:"d/m/Y H:i" }}</td>
+                            <td>{{ documento.subido_por.username|default:"N/A" }}</td>
+                            <td>
+                                <a href="{% url 'documento_detail' documento.id %}" class="btn btn-info btn-sm">Ver Detalles</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No hay documentos asociados.</p>
+        {% endif %}
+        <a href="{% url 'bpin_list' %}" class="btn btn-secondary mt-3">Volver</a>
+    </div>
+</div>
+{% endblock %}

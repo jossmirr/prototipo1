@@ -1,0 +1,86 @@
+/* core/static/css/styles.css */
+:root {
+    --pastel-blue: #E6F0FA;
+    --pastel-green: #E8F5E9;
+    --pastel-lavender: #F3E5F5;
+    --accent-blue: #4B9CD3;
+    --accent-green: #4CAF50;
+    --accent-lavender: #9575CD;
+    --text-dark: #333333;
+}
+
+body {
+    background-color: var(--pastel-blue);
+    color: var(--text-dark);
+}
+
+.card {
+    background-color: var(--pastel-red);
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: var(--pastel-lavender);
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    color: var(--text-dark);
+}
+
+.card-title {
+    font-weight: 600;
+}
+
+.btn-primary {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+}
+
+.btn-primary:hover {
+    background-color: #004085;
+    border-color: #004085;
+}
+
+.btn-secondary {
+    background-color: var(--accent-green);
+    border-color: var(--accent-green);
+}
+
+.btn-secondary:hover {
+    background-color: #388E3C;
+    border-color: #388E3C;
+}
+
+.btn-info {
+    background-color: var(--accent-lavender);
+    border-color: var(--accent-lavender);
+    color: var(--text-dark);
+}
+
+.btn-info:hover {
+    background-color: #004085;
+    border-color: #004085;
+    color: #FFFFFF;
+}
+
+.alert-danger {
+    background-color: #FFEBEE;
+    color: var(--text-dark);
+    border-color: #EF5350;
+}
+
+.form-control {
+    border-color: var(--pastel-lavender);
+}
+
+.form-control:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 0.2rem rgba(75, 156, 211, 0.25);
+}
+
+@media (max-width: 576px) {
+    .card {
+        margin: 10px;
+    }
+}

@@ -1,0 +1,86 @@
+<!-- core/templates/dashboard.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">Dashboard</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Total BPIN</h4>
+                        </div>
+                        <div class="card-body text-center">
+                            <h3>{{ total_bpins }}</h3>
+                            <a href="{% url 'bpin_list' %}" class="btn btn-primary">Ver BPINs</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Total Contratos</h4>
+                        </div>
+                        <div class="card-body text-center">
+                            <h3>{{ total_contratos }}</h3>
+                            <a href="{% url 'contrato_list' %}" class="btn btn-primary">Ver Contratos</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Documentos Recientes</h4>
+                        </div>
+                        <div class="card-body text-center">
+                            <h3>{{ total_documentos }}</h3>
+                            <a href="{% url 'document_list' %}" class="btn btn-primary">Ver Documentos</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Últimos Documentos Subidos</h4>
+                </div>
+                <div class="card-body">
+                    {% if ultimos_documentos %}
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Tipo</th>
+                                    <th>BPIN</th>
+                                    <th>Contrato</th>
+                                    <th>Fecha Subida</th>
+                                    <th>Subido Por</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for documento in ultimos_documentos %}
+                                    <tr>
+                                        <td><a href="{{ documento.archivo.url }}">{{ documento.nombre_archivo }}</a></td>
+                                        <td>{{ documento.get_tipo_documento_display }}</td>
+                                        <td>{{ documento.bpin.numero_bpin|default:"N/A" }}</td>
+                                        <td>{{ documento.contrato.numero_contrato|default:"N/A" }}</td>
+                                        <td>{{ documento.fecha_subida|date:"d/m/Y H:i" }}</td>
+                                        <td>{{ documento.subido_por.username|default:"N/A" }}</td>
+                                        <td>
+                                            <a href="{% url 'documento_detail' documento.id %}" class="btn btn-info btn-sm">Ver Detalles</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>No hay documentos recientes.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

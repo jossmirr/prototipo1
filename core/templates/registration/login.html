@@ -1,0 +1,35 @@
+<!-- core/templates/login.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card p-4">
+        <div class="card-body text-center">
+            <img src="{% static 'images/logo1.png' %}" alt="Logo" class="img-fluid mb-4" style="max-width: 150px;">
+            <h2 class="card-title mb-4">Iniciar Sesión</h2>
+            {% if form.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error:</strong> Credenciales inválidas. Por favor, intenta de nuevo.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+            <form method="POST" id="login-form">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="{{ form.username.id_for_label }}" class="form-label">Usuario</label>
+                    <input type="text" class="form-control" id="{{ form.username.id_for_label }}" name="{{ form.username.html_name }}" placeholder="Ingresa tu usuario" required>
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.password.id_for_label }}" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="{{ form.password.id_for_label }}" name="{{ form.password.html_name }}" placeholder="Ingresa tu contraseña" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+            </form>
+            <div class="text-center mt-3">
+                <a href="#" class="text-muted">¿Olvidaste tu contraseña?</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/login.js' %}"></script>
+{% endblock %}

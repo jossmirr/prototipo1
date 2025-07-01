@@ -1,0 +1,67 @@
+<!-- core/templates/upload_document.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2>Subir Documento</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" id="uploadForm">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="{{ form.nombre_archivo.id_for_label }}" class="form-label">Nombre del Archivo</label>
+                        {{ form.nombre_archivo }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.archivo.id_for_label }}" class="form-label">Archivo</label>
+                        {{ form.archivo }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.tipo_documento.id_for_label }}" class="form-label">Tipo de Documento</label>
+                        {{ form.tipo_documento }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.bpin.id_for_label }}" class="form-label">BPIN (Opcional)</label>
+                        {{ form.bpin }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.contrato.id_for_label }}" class="form-label">Contrato (Opcional)</label>
+                        {{ form.contrato }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.descripcion.id_for_label }}" class="form-label">Descripción</label>
+                        {{ form.descripcion }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Subir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Éxito</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Documento subido exitosamente.
+            </div>
+            <div class="modal-footer">
+                <a href="{% url 'document_list' %}" class="btn btn-primary">Ver Documentos</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% if messages %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var modal = new bootstrap.Modal(document.getElementById('successModal'));
+        modal.show();
+    });
+</script>
+{% endif %}
+{% endblock %}

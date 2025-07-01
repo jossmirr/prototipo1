@@ -1,0 +1,88 @@
+<!-- core/templates/document_list.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Lista de Documentos</h2>
+        <a href="{% url 'upload_document' %}" class="btn btn-primary">Subir Documento</a>
+    </div>
+    <div class="card-body">
+        <form id="csrf-form" style="display: none;">
+            {% csrf_token %}
+        </form>
+        <div class="mb-3">
+            <form method="GET" action="{% url 'document_list' %}">
+                <label for="bpin_filter">Filtrar por BPIN:</label>
+                <select name="bpin_id" id="bpin_filter" class="form-select d-inline-block w-auto">
+                    <option value="">Todos</option>
+                    {% for bpin in bpins %}
+                        <option value="{{ bpin.id }}" {% if request.GET.bpin_id == bpin.id|stringformat:"s" %}selected{% endif %}>{{ bpin.numero_bpin }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-secondary">Filtrar</button>
+            </form>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>BPIN</th>
+                    <th>Contrato</th>
+                    <th>Fecha Subida</th>
+                    <th>Subido Por</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for documento in page_obj %}
+                    <tr>
+                        <td><a href="{{ documento.archivo.url }}">{{ documento.nombre_archivo }}</a></td>
+                        <td>{{ documento.get_tipo_documento_display }}</td>
+                        <td>{{ documento.bpin.numero_bpin|default:"N/A" }}</td>
+                        <td>{{ documento.contrato.numero_contrato|default:"N/A" }}</td>
+                        <td>{{ documento.fecha_subida|date:"d/m/Y H:i" }}</td>
+                        <td>{{ documento.subido_por.username|default:"N/A" }}</td>
+                        <td>
+                            <a href="{% url 'documento_detail' documento.id %}" class="btn btn-info btn-sm">Ver Detalles</a>
+                            <a href="{% url 'documento_edit' documento.id %}" class="btn btn-warning btn-sm">Editar</a>
+                            <button class="btn btn-danger btn-sm delete-btn" data-url="{% url 'documento_delete' documento.id %}" data-message="{{ documento.nombre_archivo|escapejs }}" data-entity="Documento">Eliminar</button>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7">No hay documentos disponibles.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.bpin_id %}&bpin_id={{ request.GET.bpin_id }}{% endif %}">Anterior</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Anterior</span>
+                    </li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                        <a class="page-link" href="?page={{ num }}{% if request.GET.bpin_id %}&bpin_id={{ request.GET.bpin_id }}{% endif %}">{{ num }}</a>
+                    </li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.bpin_id %}&bpin_id={{ request.GET.bpin_id }}{% endif %}">Siguiente</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Siguiente</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}
