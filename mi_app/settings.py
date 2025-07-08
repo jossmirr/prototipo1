@@ -1,8 +1,10 @@
 # mi_app/settings.py
 from pathlib import Path
 from decouple import config
+from google.oauth2 import service_account
 import os
 import dj_database_url
+import json
 
 # Ruta base del proyecto
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,6 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
     'core',  # ¡Debe estar presente!
 ]
 
@@ -113,7 +116,7 @@ WHITENOISE_IGNORE_MISSING_FILES = True
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'login'
@@ -122,3 +125,16 @@ SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
 CSRF_COOKIE_SECURE = False
 CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SAMESITE = 'Lax'
+
+# Archivos subidos -> Google Cloud Storage
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+
+GS_BUCKET_NAME = config('GS_BUCKET_NAME')
+
+# Lee la ruta al archivo de credenciales desde el .env
+GS_CREDENTIALS_PATH = config("GS_CREDENTIALS_PATH")
+
+# Leer archivo JSON desde secreto (Render)
+GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
+    json.loads(config("GCS_KEY_JSON"))
+)
