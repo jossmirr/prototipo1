@@ -5,6 +5,7 @@ from google.oauth2 import service_account
 import os
 import dj_database_url
 import json
+from google.oauth2 import service_account
 
 # Ruta base del proyecto
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -135,6 +136,6 @@ GS_BUCKET_NAME = config('GS_BUCKET_NAME')
 GS_CREDENTIALS_PATH = config("GS_CREDENTIALS_PATH")
 
 # Leer archivo JSON desde secreto (Render)
-GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
-    json.loads(config("GCS_KEY_JSON"))
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR, config("GS_CREDENTIALS_PATH"))
 )
